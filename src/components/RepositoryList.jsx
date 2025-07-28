@@ -1,10 +1,13 @@
 import { FlatList, View, StyleSheet, Text, Image } from 'react-native';
 import RepositoryListItem from './RepositoryListItem';
+import useRepositories from '../hooks/useRepos';
 
 // Add these styles to your StyleSheet
 const styles = StyleSheet.create({
     separator: {
         height: 10,
+        borderBlockColor: '#e1e4e8',
+        borderBottomWidth: 10,
     },
     repositoryItem: {
         backgroundColor: 'white',
@@ -95,6 +98,13 @@ const repositories = [
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
+    const { repositories } = useRepositories();
+
+    const repositoryNodes = repositories
+        ? repositories.edges.map(edge => edge.node)
+        : [];
+
+
     // Helper function to format numbers with 'k' suffix
     const formatCount = (count) => {
         if (count >= 1000) {
@@ -103,9 +113,11 @@ const RepositoryList = () => {
         return count;
     };
 
+
+
     return (
         <FlatList
-            data={repositories}
+            data={repositoryNodes}
             ItemSeparatorComponent={ItemSeparator}
             renderItem={({ item }) => (
                 <RepositoryListItem repository={item} formatCount={formatCount} />
