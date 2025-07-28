@@ -1,23 +1,42 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useFormik } from "formik";
 import { Button, Text, TextInput, View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
 import * as Yup from 'yup';
+import { useSignIn } from '../hooks/useSignIn';
+import useAuthStorage from '../hooks/useAuthStorage';
+import { useNavigate } from 'react-router-native';
+import { useApolloClient } from '@apollo/client';
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
     password: Yup.string().required('Password is required'),
 });
 
+
 const SignIn = () => {
+    const authStorage = useAuthStorage();
+    const apolloClient = useApolloClient(); // <-- Käytä kontekstia authStorage
+    const navigate = useNavigate();
+    const [signInUser, result] = useSignIn(); // <-- Käytä hookkia, älä suoraa importtia
     const formik = useFormik({
         initialValues: {
             username: '',
             password: '',
         },
         validationSchema,
-        onSubmit: values => {
-            console.log('✅ Form values:', values);
-            // TODO: call your backend auth here
+        onSubmit: async values => {
+            try {
+                console.log('Signing in with:', values);
+                const accessToken = await signInUser({
+                    username: values.username,
+                    password: values.password,
+                });
+                await authStorage.setAccessToken(accessToken); // <-- Set access token using authStorage
+                apolloClient.resetStore();
+                navigate("/"); // <-- Call useNavigate function
+            } catch (error) {
+                console.error('Login failed:', error);
+            }
         },
     });
 
