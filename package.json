@@ -10,15 +10,6 @@
     "web": "expo start --web",
     "test": "jest"
   },
-  "jest": {
-    "preset": "jest-expo",
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|react-router-native)"
-    ]
-  },
   "dependencies": {
     "@apollo/client": "^3.13.8",
     "@expo/metro-config": "^0.17.4",
@@ -37,14 +28,19 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
+    "@babel/core": "^7.28.0",
     "@babel/eslint-parser": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "^13.2.0",
+    "babel-jest": "^30.0.5",
     "eslint": "^9.32.0",
     "eslint-plugin-jest": "^29.0.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-native": "^5.0.0",
     "jest": "^29.7.0",
-    "jest-expo": "^53.0.9"
+    "react-test-renderer": "^18.2.0"
   },
   "private": true
 }
