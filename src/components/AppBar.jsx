@@ -39,6 +39,8 @@ const AppBar = ({ user }) => {
         await apolloClient.resetStore();
     };
 
+    console.log('User in AppBar:', user);
+
     return (
         <View style={styles.container}>
             <ScrollView horizontal>
@@ -48,17 +50,36 @@ const AppBar = ({ user }) => {
                     <Text style={styles.text}>Repositories</Text>
                 </Pressable>
                 {user && user.me ? (
-                    <Pressable
-                        onPress={() => handleSignOut()}
-                    >
-                        <Text style={styles.text}>Sign Out</Text>
-                    </Pressable>
+                    <>
+                        <Pressable
+                            onPress={() => navigate(`/create-review`)}
+                        >
+                            <Text style={styles.text}>Create Review</Text>
+                        </Pressable>
+                        <Pressable
+                            onPress={() => navigate(`/reviews/${user.me.id}`)}
+                        >
+                            <Text style={styles.text}>Your reviews</Text>
+                        </Pressable>
+                        <Pressable
+                            onPress={() => handleSignOut()}
+                        >
+                            <Text style={styles.text}>Sign Out</Text>
+                        </Pressable>
+                    </>
                 ) : (
-                    <Pressable
-                        onPress={() => navigate('/signin')}
-                    >
-                        <Text style={styles.text}>Sign In</Text>
-                    </Pressable>
+                    <>
+                        <Pressable
+                            onPress={() => navigate('/signin')}
+                        >
+                            <Text style={styles.text}>Sign In</Text>
+                        </Pressable>
+                        <Pressable
+                            onPress={() => navigate('/signup')}
+                        >
+                            <Text style={styles.text}>Sign Up</Text>
+                        </Pressable>
+                    </>
                 )}
             </ScrollView>
         </View>
